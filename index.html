@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>PS4 GoldHEN Host</title>
+
+<style>
+body{
+background:#0e0e0e;
+color:white;
+font-family:Arial;
+text-align:center;
+}
+
+select,button{
+padding:12px;
+margin:10px;
+font-size:16px;
+border-radius:6px;
+border:none;
+}
+
+button{
+background:#0078ff;
+color:white;
+cursor:pointer;
+}
+
+button:hover{
+background:#0057b8;
+}
+
+#status{
+margin-top:20px;
+font-size:20px;
+}
+</style>
+
+</head>
+
+<body>
+
+<h1>PS4 Exploit Host</h1>
+
+<h3>Firmware</h3>
+
+<select id="fw">
+<option value="stage2_9.00.bin">9.00</option>
+<option value="stage2_10.01.bin">10.01</option>
+<option value="stage2_10.50.bin">10.50</option>
+<option value="stage2_11.00.bin">11.00</option>
+</select>
+
+<h3>GoldHEN Version</h3>
+
+<select id="hen">
+<option value="goldhen.bin">GoldHEN Latest</option>
+</select>
+
+<br>
+
+<button onclick="runExploit()">Run Exploit</button>
+
+<p id="status">Ready</p>
+
+<script src="exploit.js"></script>
+
+<script>
+if ('serviceWorker' in navigator) {
+navigator.serviceWorker.register('sw.js');
+}
+</script>
+
+</body>
+</html>
