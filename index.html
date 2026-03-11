@@ -4,72 +4,185 @@
 <meta charset="utf-8">
 <title>PS4 GoldHEN Host</title>
 
+<script src="./bundle.js"></script>
+
 <style>
+
 body{
-background:#0e0e0e;
-color:white;
-font-family:Arial;
+background:#252526;
+color:#cccccc;
+font-family:"Segoe UI",Tahoma;
 text-align:center;
 }
 
-select,button{
-padding:12px;
-margin:10px;
+h2{
+margin-bottom:15px;
+}
+
+select{
+padding:8px;
 font-size:16px;
-border-radius:6px;
-border:none;
+margin:6px;
+border-radius:4px;
 }
 
 button{
-background:#0078ff;
-color:white;
+padding:12px 24px;
+font-size:18px;
+font-weight:bold;
+background:#007acc;
+color:#fff;
+border:none;
+border-radius:6px;
 cursor:pointer;
 }
 
 button:hover{
-background:#0057b8;
+background:#005a9e;
 }
 
-#status{
+#console{
+font-family:monospace;
+background:#1e1e1e;
+border:1px solid #3c3c3c;
+padding:12px;
+border-radius:6px;
 margin-top:20px;
-font-size:20px;
+text-align:left;
 }
+
+footer{
+margin-top:30px;
+font-size:14px;
+color:#888;
+}
+
 </style>
+
+<script>
+
+if ((window.applicationCache.status == '0') || (window.applicationCache.status == '3')) {
+window.location.replace("cache.html");
+}
+
+</script>
 
 </head>
 
 <body>
 
-<h1>PS4 Exploit Host</h1>
+<h2>PSFree + Lapse Exploit Host</h2>
 
-<h3>Firmware</h3>
+<div>
+
+<label>Firmware:</label>
 
 <select id="fw">
+
 <option value="stage2_9.00.bin">9.00</option>
 <option value="stage2_10.01.bin">10.01</option>
 <option value="stage2_10.50.bin">10.50</option>
 <option value="stage2_11.00.bin">11.00</option>
+
 </select>
 
-<h3>GoldHEN Version</h3>
+</div>
+
+<div>
+
+<label>GoldHEN Version:</label>
 
 <select id="hen">
+
 <option value="goldhen.bin">GoldHEN Latest</option>
+
 </select>
+
+</div>
 
 <br>
 
-<button onclick="runExploit()">Run Exploit</button>
+<button id="jailbreakBtn">Start Jailbreak</button>
 
-<p id="status">Ready</p>
+<div style="margin-top:15px">
 
-<script src="exploit.js"></script>
+<label>
 
-<script>
-if ('serviceWorker' in navigator) {
-navigator.serviceWorker.register('sw.js');
-}
-</script>
+<input type="checkbox" id="autoRunCheck">
+
+Autorun exploit
+
+</label>
+
+</div>
+
+<pre id="console"></pre>
+
+<footer>
+
+PS4 Exploit Host
+
+</footer>
 
 </body>
+
+<script>
+
+const outputConsole=document.getElementById("console")
+
+window.log=(msg,color="#cccccc")=>{
+outputConsole.innerHTML+=`<span style="color:${color}">${msg}</span><br>`
+}
+
+document.getElementById("jailbreakBtn").addEventListener("click",()=>{
+
+document.getElementById("jailbreakBtn").disabled=true
+
+outputConsole.textContent=""
+
+let fw=document.getElementById("fw").value
+let hen=document.getElementById("hen").value
+
+window.selectedStage=fw
+window.selectedGoldhen=hen
+
+log("Selected firmware stage: "+fw)
+log("Selected GoldHEN: "+hen)
+
+try{
+
+doJBwithPSFreeLapseExploit()
+
+}catch(e){
+
+log("Exploit error: "+e,"red")
+
+}
+
+})
+
+window.addEventListener('unhandledrejection',event=>{
+
+log("Unhandled rejection: "+event.reason,"red")
+
+})
+
+window.addEventListener('error',event=>{
+
+log("Error: "+event.error,"red")
+
+})
+
+if(document.getElementById("autoRunCheck").checked){
+
+setTimeout(()=>{
+
+document.getElementById("jailbreakBtn").click()
+
+},5000)
+
+}
+
+</script>
+
 </html>
